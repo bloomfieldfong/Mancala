@@ -1,4 +1,4 @@
-
+import random
 ##Valida si el movimiento es valido 
 ##Parametros: array: estado del jugador, pick: que 
 def valid_move(array, pick):
@@ -104,8 +104,38 @@ def play(turn, board, move):
 
 def winner(board):
     if board[6] > board[13]:
-        return "El ganador es el humano"
+        return 0
     if board[13] > board[6]:
-        return "Te gano la IA!"
+        return 1
     if board[13] == board[6]:
-        return "Empate!!!"
+        return 2
+
+
+def corrida_juego(board, move):
+
+    turn = 1
+    human_choice = [0,1,2,3,4,5]
+    ia_choice = [7,8,9,10,11,12]
+    board, turn, over = play(turn, board, move)
+
+    while over == True:
+        if turn == 0 and over == True:
+            move = random.choice(human_choice)
+            if move > 5: 
+                print("Movimiento invaldio")
+
+            else: 
+                board, turn, over = play(0,board, move)
+                print("##########################################")
+                print("Movimiento nuestro", move)
+                print_board( board[7:14], board[0:7])
+
+        if turn == 1 and over == True: 
+            move = random.choice(ia_choice)
+            if  move > 6 and move < 13:
+                board, turn, over = play(1,board, move)
+                print("##########################################")
+                print("Movimineto de IA", int(move))
+                print_board( board[7:14], board[0:7])
+
+    return winner(board)
