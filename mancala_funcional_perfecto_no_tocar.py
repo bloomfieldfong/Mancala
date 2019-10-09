@@ -64,12 +64,10 @@ while(vacioAI!= 0 and vacioMe!=0):
             print_board( board[7:14], board[0:7])
 
             ##Nos da un update de si algunos de los dos tableros esta vacio
-            
-        else: 
-            print("Movimiento invalido, ingrese otra vez")
-
             vacioAI = sum(board[0:6])
             vacioMe = sum(board[7:13])
+        else: 
+            print("Movimiento invalido, ingrese otra vez")
     
     if (turn ==1):
         possible_move = [9,10,11,12,8,7]
