@@ -99,7 +99,7 @@ def play(turn, board, move):
                     board[13] += vacioAI
                     board[6] += vacioMe
                     clean(board)
-                
+            #print("Board: ", board, "Turn: ", turn, "Over: ", over, "Move: ", move)
             return board, turno, over
 
 def winner(board):
@@ -117,25 +117,32 @@ def corrida_juego(board, move):
     human_choice = [0,1,2,3,4,5]
     ia_choice = [7,8,9,10,11,12]
     board, turn, over = play(turn, board, move)
-
+    #print("Board: ", board, "Turn: ", turn, "Over: ", over)
     while over == True:
         if turn == 0 and over == True:
             move = random.choice(human_choice)
-            if move > 5: 
-                print("Movimiento invaldio")
 
-            else: 
-                board, turn, over = play(0,board, move)
-                print("##########################################")
-                print("Movimiento nuestro", move)
-                print_board( board[7:14], board[0:7])
+            if valid_move(board, move):
+                if move <= 5: 
+
+                    board, turn, over = play(0, board, move)
+                    #print("Despues de jugar")
+                    #print("Board: ", board, "Turn: ", turn, "Over: ", over, "Move: ", move)
+                    #print("##########################################")
+                    #print("Movimiento nuestro", move)
+                    #print_board( board[7:14], board[0:7])
 
         if turn == 1 and over == True: 
             move = random.choice(ia_choice)
-            if  move > 6 and move < 13:
-                board, turn, over = play(1,board, move)
-                print("##########################################")
-                print("Movimineto de IA", int(move))
-                print_board( board[7:14], board[0:7])
+            if valid_move(board, move):
+                if  move > 6 and move < 13:
+                    #print("Antes de jugar")
+                    #print("Board: ", board, "Turn: ", turn, "Over: ", over, "Move: ", move)
+                    board, turn, over = play(1, board, move)
+                    #print("Despues de jugar")
+                    #print("Board: ", board, "Turn: ", turn, "Over: ", over, "Move: ", move)
+                    #print("##########################################")
+                    #print("Movimineto de IA", int(move))
+                    #print_board( board[7:14], board[0:7])
 
     return winner(board)
