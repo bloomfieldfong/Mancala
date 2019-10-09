@@ -116,7 +116,11 @@ def corrida_juego(board, move):
     turn = 1
     human_choice = [0,1,2,3,4,5]
     ia_choice = [7,8,9,10,11,12]
-    board, turn, over = play(turn, board, move)
+    
+    if valid_move(board, move):
+        board, turn, over = play(turn, board, move)
+    else: 
+        return False
     #print("Board: ", board, "Turn: ", turn, "Over: ", over)
     while over == True:
         if turn == 0 and over == True:
@@ -146,3 +150,25 @@ def corrida_juego(board, move):
                     #print_board( board[7:14], board[0:7])
 
     return winner(board)
+
+
+
+def possible_movess(board, array):
+    
+    yei = []
+    if valid_move(board, array[0]) == True:
+        yei.append(array[0])    
+    if valid_move( board, array[1]) == True:
+        yei.append(array[1])
+    if valid_move( board, array[2]) == True:
+        yei.append(array[2])
+    if valid_move( board, array[3]) == True:
+        yei.append(array[3])
+    if valid_move( board, array[4]) == True:
+        yei.append(array[4])
+    if valid_move( board, array[5]) == True:
+        yei.append(array[5])
+
+    return yei
+
+
