@@ -7,6 +7,7 @@ def valid_move(array, pick):
     else: 
         return False
 
+##Limpia el board, esto se utiliza cuando termina el juego
 def clean(board):
     for i in range(6):
         board[i]= 0
@@ -23,8 +24,11 @@ def print_board(ia, me):
     ia.reverse()
 
 ##para jugador 1  = board[0:6]
-##Para jugador 2 = 
-
+##Para jugador 2 =  board[7:13]
+## return board, turno, over
+## board actualizado
+## turno de la persona
+## si termino el juego 
 def play(turn, board, move):
     
     vacioAI = sum(board[0:6])
@@ -34,7 +38,6 @@ def play(turn, board, move):
     if(vacioAI!= 0 and vacioMe!=0): ##Verifica si el movimineot es valido
         if(valid_move(board, move) == True):
             over = True
-
             ##Nos indica la cantidad de fichas que hay en esa parte del board 
             ##y lo iguala a 0 ya que se moveran las fichas
             fichas = board[move]
@@ -43,12 +46,12 @@ def play(turn, board, move):
             ##Mueve las fichas dependiendo de su cantidad en el board
             while fichas > 0:
                 move += 1
-
                 if move == 14:
                     move = 0
 
                 ##ultima ficha
                 if fichas == 1:
+                    ## verifica si esta en su mancala para darle turno extra
                     if turn == 0:  
                         ##verifica si hay un turno extra
                         if move == 6:
@@ -62,7 +65,7 @@ def play(turn, board, move):
                             turno = 0
 
                 if turn == 0: 
-                        ##Si estamos en el mancala del enemigo, lo saltamos
+                    ##Si estamos en el mancala del enemigo, lo saltamos
                     if move == 13:
                         move = 0 
                 if turn == 1: 
@@ -70,13 +73,19 @@ def play(turn, board, move):
                     if move == 7:
                         move = 0 
                 
+                ## si es ultima y board esta en 0 y es mi turno y estoy en mi rango y el movimieto no es mi mancala
+                ## roba 
                 if fichas == 1 and board[move] == 0 and turn == 0 and move < 5 and move != 6:
+                    ##fichas del espejo
                     fichas_robadas = board[12 - move]
+                    ## fichas robadas  mas la mia 
                     board[6] += fichas_robadas +1
+
+                    ## se quitan las fichas
                     board[12-move] = 0  
                     board[move] = 0
                 
-                
+                ## mismo pero para la AI
                 elif fichas == 1 and board[move] == 0 and turn == 1 and move > 6 and move != 13:
                     fichas_robadas = board[12 - move]
                     board[13] += fichas_robadas +1
@@ -93,27 +102,35 @@ def play(turn, board, move):
                 vacioMe = sum(board[0:6])
                 vacioAI = sum(board[7:13])
 
-        
+                ## si hay alguien que ya termino
                 if vacioAI == 0 or vacioMe == 0:
+                    ## se acabo
                     over = False 
+                    ## se agregan las fichas a nuestros mancalas
                     board[13] += vacioAI
                     board[6] += vacioMe
                     clean(board)
-            #print("Board: ", board, "Turn: ", turn, "Over: ", over, "Move: ", move)
             return board, turno, over
 
+## quien gano
 def winner(board):
+    ## si gana el humano retorna 0
     if board[6] > board[13]:
         return 0
+    ## si gana el ia retorna 1
     if board[13] > board[6]:
         return 1
+    ## si es empate
     if board[13] == board[6]:
         return 2
 
-
+## corrida de un juego completo a partir un board y el primer movimiento de la IA
 def corrida_juego(board, move):
 
+    ## turno del ia
     turn = 1
+
+    ## posibles moviminetos para cada jugador
     human_choice = [0,1,2,3,4,5]
     ia_choice = [7,8,9,10,11,12]
     
@@ -128,26 +145,15 @@ def corrida_juego(board, move):
 
             if valid_move(board, move):
                 if move <= 5: 
-
                     board, turn, over = play(0, board, move)
-                    #print("Despues de jugar")
-                    #print("Board: ", board, "Turn: ", turn, "Over: ", over, "Move: ", move)
-                    #print("##########################################")
-                    #print("Movimiento nuestro", move)
-                    #print_board( board[7:14], board[0:7])
 
         if turn == 1 and over == True: 
             move = random.choice(ia_choice)
             if valid_move(board, move):
                 if  move > 6 and move < 13:
-                    #print("Antes de jugar")
-                    #print("Board: ", board, "Turn: ", turn, "Over: ", over, "Move: ", move)
+
                     board, turn, over = play(1, board, move)
-                    #print("Despues de jugar")
-                    #print("Board: ", board, "Turn: ", turn, "Over: ", over, "Move: ", move)
-                    #print("##########################################")
-                    #print("Movimineto de IA", int(move))
-                    #print_board( board[7:14], board[0:7])
+
 
     return winner(board)
 
