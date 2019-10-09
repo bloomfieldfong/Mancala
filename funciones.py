@@ -2,6 +2,9 @@
 ##Valida si el movimiento es valido 
 ##Parametros: array: estado del jugador, pick: que 
 def valid_move(array, pick):
+    if pick > 7:
+        pick = pick -6 
+    
     if pick >= 0 and pick < 6:
         if array[pick] >0 :
             return True
@@ -9,6 +12,7 @@ def valid_move(array, pick):
             return False
     else:
         return False
+    
     
 
 ##Print de board
@@ -19,3 +23,4 @@ def print_board(ia, me):
     print('   ', me[0:6],me[6:])
     print('\nMe:  0  1  2  3  4  5')
     ia.reverse()
+
