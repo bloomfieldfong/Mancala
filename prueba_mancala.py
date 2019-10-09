@@ -22,13 +22,20 @@ while(vacioAI!= 0 and vacioMe!=0):
 
         else: 
             board, turn = play(0,board, move)
+            print("##########################################")
+            print("Movimiento nuestro", move)
             print_board( board[7:14], board[0:7])
 
     if turn == 1: 
         possible_move = [9,10,11,12,8,7]
-        move = int(input("Ingrese su movimiento (0-5) :v")) 
-        if  move > 7 and move < 13:
+        move = int(input("Ingrese su movimiento (0-5):v "))
+        ##move = random.choice(possible_move)
+        print(valid_move(board, move))
+        if  move > 6 and move < 13:
             board, turn = play(1,board, move)
-            print(board)
+            print(turn)
+            print("##########################################")
+            print("Movimineto de IA", int(move))
             print_board( board[7:14], board[0:7])
+
 

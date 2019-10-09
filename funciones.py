@@ -12,7 +12,7 @@ def valid_move(array, pick):
 ##Print de board
 def print_board(ia, me):
     ia.reverse()
-    print('IA   5  4  3  2  1  0\n')
+    print('IA  12 11 10  9  8  7\n')
     print(ia[:1], ia[1:7])
     print('   ', me[0:6],me[6:])
     print('\nMe:  0  1  2  3  4  5')
@@ -33,6 +33,9 @@ def play(turn, board, move):
         ##Mueve las fichas dependiendo de su cantidad en el board
         while fichas > 0:
             move += 1
+
+            if move == 14:
+                move = 0
 
             ##ultima ficha
             if fichas == 1:
@@ -58,19 +61,22 @@ def play(turn, board, move):
                     move = 0 
              
 
-            if fichas == 1 and  board[move] == 0:
+            if fichas == 1 and board[move] == 0 and turn == 0 and move < 5 and move != 6:
+                board[6] += fichas_robadas +1
                 fichas_robadas = board[12 - move]
-                board[12-move] = 0
-                    
+                board[12-move] = 0  
                 board[move] = 0
-
-                if turn == 0 and move < 5:
-                    board[6] += fichas_robadas +1
-                if turn == 1 and move > 6:
-                    board[13] += fichas_robadas +1
+                 
+            
+            if fichas == 1 and board[move] == 0 and turn == 1 and move > 6 and move != 13:
+                board[13] += fichas_robadas +1
+                fichas_robadas = board[12 - move]
+                board[12-move] = 0  
+                board[move] = 0
 
                 ##se agrega una ficha
             else: 
+
                 board[move] += 1  
                 
             fichas -= 1
