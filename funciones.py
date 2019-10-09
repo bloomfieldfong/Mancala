@@ -7,7 +7,11 @@ def valid_move(array, pick):
     else: 
         return False
 
-    
+def clean(board):
+    for i in range(6):
+        board[i]= 0
+    for i in range (7,13):
+        board[i]= 0
 
 ##Print de board
 def print_board(ia, me):
@@ -24,6 +28,7 @@ def print_board(ia, me):
 def play(turn, board, move):
      ##Verifica si el movimineot es valido
     if(valid_move(board, move) == True):
+        over = True
 
         ##Nos indica la cantidad de fichas que hay en esa parte del board 
         ##y lo iguala a 0 ya que se moveran las fichas
@@ -62,15 +67,15 @@ def play(turn, board, move):
              
 
             if fichas == 1 and board[move] == 0 and turn == 0 and move < 5 and move != 6:
-                board[6] += fichas_robadas +1
                 fichas_robadas = board[12 - move]
+                board[6] += fichas_robadas +1
                 board[12-move] = 0  
                 board[move] = 0
-                 
             
-            if fichas == 1 and board[move] == 0 and turn == 1 and move > 6 and move != 13:
-                board[13] += fichas_robadas +1
+            
+            elif fichas == 1 and board[move] == 0 and turn == 1 and move > 6 and move != 13:
                 fichas_robadas = board[12 - move]
+                board[13] += fichas_robadas +1
                 board[12-move] = 0  
                 board[move] = 0
 
@@ -80,5 +85,18 @@ def play(turn, board, move):
                 board[move] += 1  
                 
             fichas -= 1
+
+            ##Suma de las primeras 6 casillas
+            vacioMe = sum(board[0:6])
+            vacioAI = sum(board[7:13])
+
+     
+            if vacioAI == 0 or vacioMe == 0:
+                over = False 
+                board[13] += vacioAI
+                board[6] += vacioMe
+                clean(board)
+
+
             
-        return board, turno
+        return board, turno, over
