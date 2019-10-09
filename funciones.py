@@ -75,7 +75,7 @@ def play(turn, board, move):
                 
                 ## si es ultima y board esta en 0 y es mi turno y estoy en mi rango y el movimieto no es mi mancala
                 ## roba 
-                if fichas == 1 and board[move] == 0 and turn == 0 and move < 5 and move != 6:
+                if fichas == 1 and board[move] == 0 and turn == 0 and move <= 5 and move != 6:
                     ##fichas del espejo
                     fichas_robadas = board[12 - move]
                     ## fichas robadas  mas la mia 
@@ -134,33 +134,44 @@ def corrida_juego(board, move):
     human_choice = [0,1,2,3,4,5]
     ia_choice = [7,8,9,10,11,12]
     
+    ## verifica si el movimiento es valido sobre el board actual
     if valid_move(board, move):
+        ## realiza un turno si es verdadero 
         board, turn, over = play(turn, board, move)
     else: 
         return False
-    #print("Board: ", board, "Turn: ", turn, "Over: ", over)
+    ## cuando no termina el juego aun 
     while over == True:
+
+        ## si es turno del humano
         if turn == 0 and over == True:
+            ##realiza un movimiento random sobre las opciones anteriores
             move = random.choice(human_choice)
 
+            ## si el movimineto es valido
             if valid_move(board, move):
+                ## si el movimiento esta en nuestro rango
                 if move <= 5: 
+                    ## realiza un turno 
                     board, turn, over = play(0, board, move)
 
+        ## si es turno del ia
         if turn == 1 and over == True: 
+
+            ## realiza un movimiento random sobre las opcioens anteriores
             move = random.choice(ia_choice)
+            ## valida el movimineto
             if valid_move(board, move):
                 if  move > 6 and move < 13:
-
+                    ##hace movimiento
                     board, turn, over = play(1, board, move)
 
-
+    ## retorna quien gano con el board terminado
     return winner(board)
 
 
-
+## posibles movimientos
 def possible_movess(board, array):
-    
     yei = []
     if valid_move(board, array[0]) == True:
         yei.append(array[0])    
@@ -174,7 +185,6 @@ def possible_movess(board, array):
         yei.append(array[4])
     if valid_move( board, array[5]) == True:
         yei.append(array[5])
-
     return yei
 
 
