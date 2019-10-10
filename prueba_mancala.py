@@ -10,15 +10,16 @@ import copy
 #board = [0,0,0,1,0,0,0,4,4,4,4,4,4,0]
 board = [4,4,4,4,4,4,0,4,4,4,4,4,4,0]
 turn = 0
+prueba = [9,10,11,12,8,7]
 contador= [0,0,0,0,0,0]
-iteracion = 60000
+iteracion = 100
 porcentaje = []
 
 over = True
 #Inicio del juego
 print_board( board[7:14], board[0:7])
 while(over):
-
+    
     if turn == 0 and over == True:
         move = int(input("Ingrese su movimiento (0-5): "))
         if move <6 and  valid_move(board, move): 
@@ -30,105 +31,113 @@ while(over):
             print_board( board[7:14], board[0:7])
 
       
-    if turn == 1 and over == True: 
-        prueba = [9,10,11,12,8,7]
-        #move = int(input("Ingrese su movimiento (0-5):v "))
-        boardTry = copy.deepcopy(board)
-        ##regresa los posibles movimiento para el board actual
-        possible_move = possible_movess(boardTry, prueba)
+    elif turn == 1 and over == True: 
         
-
+        #move = int(input("Ingrese su movimiento (0-5):v "))
+        
+        ##regresa los posibles movimiento para el board actual
         contador = [0, 0, 0, 0, 0, 0]
         porcentaje = []
 
         ##MONTE CARLO##
         for i in range(0, iteracion):
-          
-            try: 
-                move = random.choice(possible_move)
-                ## si el movimiento es valido
-                if (corrida_juego != False ):
-
                     ## quien fue el ganador de todo el juego que se esta simulando
-                    winner = corrida_juego(boardTry, move)
-                        ##AQUI
-                    if move == 7:
-                        contador[0] = contador[0] + 1
-                    if move == 8:
-                        contador[1] = contador[1] + 1
-                    if move == 9:
-                        contador[2] = contador[2] + 1
-                    if move == 10:
-                        contador[3] = contador[3] + 1
-                    if move == 11:
-                        contador[4] = contador[4] + 1
-                    if move == 12:
-                        contador[5] = contador[5] + 1
-            except:
-                a = 0
+
+            try: 
+                boardTry = copy.deepcopy(board)
+                possible_move = possible_movess(boardTry, prueba)  
+                move = random.choice(possible_move)
+            
+                if move in possible_move:
+                    if valid_move(boardTry, move):
+                        winner = corrida_juego(boardTry, move)
+                                    ##AQUI
+                        if move == 7 and winner == 1:
+                            contador[0] = contador[0] + winner
+                        elif move == 8  and winner == 1:
+                            contador[1] = contador[1] + winner
+                        elif move == 9  and winner == 1:
+                            contador[2] = contador[2] + winner
+                        elif move == 10 and winner == 1:
+                            contador[3] = contador[3] + winner
+                        elif move == 11 and winner == 1:
+                            contador[4] = contador[4] + winner
+                        elif move == 12 and winner == 1:
+                            contador[5] = contador[5] + winner
+            except: 
+                a =1
+        
+        
+
+        movimiento = max(contador)
+        print(contador.index(movimiento) + 7)
+        if valid_move(board, (contador.index(movimiento) + 7)) and turn == 1:
+            if contador.index(movimiento) == 0:
+                board, turn, over = play(1,board, 7)
+                print(turn)
+                print("##########################################")
+                contador.reverse()
+                print(contador)
+                print("##########################################")
+                print("Movimineto de IA: 7" )
+                print_board( board[7:14], board[0:7])
 
         
-        movimiento = max(contador)
+            elif contador.index(movimiento) == 1:
+                board, turn, over = play(1,board, 8)
+                print(turn)
+                print("##########################################")
+                contador.reverse()
+                print(contador)
+                print("##########################################")
+                print("Movimineto de IA: 8")
+                print_board( board[7:14], board[0:7])
 
-        for j in range(len(contador)):
-            porcentaje.append( contador[j] * 100 / iteracion)
+            elif contador.index(movimiento) == 2:
+                board, turn, over = play(1,board, 9)
+                print(turn)
+                print("##########################################")
+                contador.reverse()
+                print(contador)
+                print("##########################################")
+                print("Movimineto de IA: 9",)
+                print_board( board[7:14], board[0:7])
+
+            elif contador.index(movimiento) == 3:
+                
+                board, turn, over = play(1,board, 10)
+                print(turn)
+                print("##########################################")
+                contador.reverse()
+                print(contador)
+                print("##########################################")
+                print("Movimineto de IA: 10")
+                print_board( board[7:14], board[0:7])
 
 
-        if contador.index(movimiento) == 0:
-            board, turn, over = play(1,board, 7)
-            print("##########################################")
-            porcentaje.reverse()
-            print(porcentaje)
-            print("##########################################")
-            print("Movimineto de IA: 7" )
-            print_board( board[7:14], board[0:7])
-      
-        if contador.index(movimiento) == 1:
-            board, turn, over = play(1,board, 8)
-            print("##########################################")
-            porcentaje.reverse()
-            print(porcentaje)
-            print("##########################################")
-            print("Movimineto de IA: 8")
-            print_board( board[7:14], board[0:7])
-        if contador.index(movimiento) == 2:
-            board, turn, over = play(1,board, 9)
-            print("##########################################")
-            porcentaje.reverse()
-            print(porcentaje)
-            print("##########################################")
-            print("Movimineto de IA: 9",)
-            print_board( board[7:14], board[0:7])
-      
-        if contador.index(movimiento) == 3:
-            board, turn, over = play(1,board, 10)
-            print("##########################################")
-            porcentaje.reverse()
-            print(porcentaje)
-            print("##########################################")
-            print("Movimineto de IA: 10")
-            print_board( board[7:14], board[0:7])
-        if contador.index(movimiento) == 4:
-            board, turn, over = play(1,board, 11)
-            print("##########################################")
-            porcentaje.reverse()
-            print(porcentaje)
-            print("##########################################")
-            print("Movimineto de IA: 11")
-            print_board( board[7:14], board[0:7])
+            elif contador.index(movimiento) == 4:
+                board, turn, over = play(1,board, 11)
+                print(turn)
+                print("##########################################")
+                contador.reverse()
+                print(contador)
+                print("##########################################")
+                print("Movimineto de IA: 11")
+                print_board( board[7:14], board[0:7])
 
-        if contador.index(movimiento) == 5:
-            board, turn, over = play(1,board, 12)
-            print("##########################################")
-            porcentaje.reverse()
-            print(porcentaje)
-            print("##########################################")
-            print("Movimineto de IA: 12")
-            print_board( board[7:14], board[0:7])
-            
+
+            elif contador.index(movimiento) == 5:
+                board, turn, over = play(1,board, 12)
+                print(turn)
+                print("##########################################")
+                contador.reverse()
+                print(contador)
+                print("##########################################")
+                print("Movimineto de IA: 12")
+                print_board( board[7:14], board[0:7])
+
     
-            
-      
+              
    
       
 
