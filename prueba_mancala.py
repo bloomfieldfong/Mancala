@@ -12,7 +12,7 @@ board = [4,4,4,4,4,4,0,4,4,4,4,4,4,0]
 turn = 0
 prueba = [9,10,11,12,8,7]
 contador= [0,0,0,0,0,0]
-iteracion = 100
+iteracion = 10000
 porcentaje = []
 
 over = True
@@ -70,7 +70,6 @@ while(over):
         
 
         movimiento = max(contador)
-        print(contador.index(movimiento) + 7)
         if valid_move(board, (contador.index(movimiento) + 7)) and turn == 1:
             if contador.index(movimiento) == 0:
                 board, turn, over = play(1,board, 7)
