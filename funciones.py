@@ -75,7 +75,7 @@ def play(turn, board, move):
                 
                 ## si es ultima y board esta en 0 y es mi turno y estoy en mi rango y el movimieto no es mi mancala
                 ## roba 
-                if fichas == 1 and board[move] == 0 and turn == 0 and move <= 5 and move != 6:
+                if fichas == 1 and board[move] == 0 and turn == 0 and move <= 5 and move != 6 and  board[12 - move] != 0 :
                     ##fichas del espejo
                     fichas_robadas = board[12 - move]
                     ## fichas robadas  mas la mia 
@@ -86,7 +86,7 @@ def play(turn, board, move):
                     board[move] = 0
                 
                 ## mismo pero para la AI
-                elif fichas == 1 and board[move] == 0 and turn == 1 and move > 6 and move != 13:
+                elif fichas == 1 and board[move] == 0 and turn == 1 and move > 6 and move != 13  and  board[12 - move] != 0:
                     fichas_robadas = board[12 - move]
                     board[13] += fichas_robadas +1
                     board[12-move] = 0  

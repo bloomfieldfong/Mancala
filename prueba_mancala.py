@@ -2,20 +2,22 @@ from funciones import valid_move, print_board, play, winner, corrida_juego, poss
 import random
 import copy
 
+# Funciona porque el random es uniforme y esto hace que en muchas 
+# iteraciones el valor esperado sea aproximado a 1/6 de la cantidad de iteraciones
+
 ##Define el board que tendremos y el turno del jugador
       #  0 1 2 3 4 5 6 7 8 9 0 1 2 3
 #board = [0,0,0,1,0,0,0,4,4,4,4,4,4,0]
 board = [4,4,4,4,4,4,0,4,4,4,4,4,4,0]
 turn = 0
 contador= [0,0,0,0,0,0]
-iteracion = 10000
+iteracion = 60000
 porcentaje = []
 
 over = True
 #Inicio del juego
 print_board( board[7:14], board[0:7])
 while(over):
-    boardTry = copy.deepcopy(board)
 
     if turn == 0 and over == True:
         move = int(input("Ingrese su movimiento (0-5): "))
@@ -31,9 +33,10 @@ while(over):
     if turn == 1 and over == True: 
         prueba = [9,10,11,12,8,7]
         #move = int(input("Ingrese su movimiento (0-5):v "))
-
+        boardTry = copy.deepcopy(board)
         ##regresa los posibles movimiento para el board actual
         possible_move = possible_movess(boardTry, prueba)
+        
 
         contador = [0, 0, 0, 0, 0, 0]
         porcentaje = []
